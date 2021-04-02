@@ -64,6 +64,7 @@ module.exports.deletePost = (request, response, next) => {
     const {PostID} = request.params;
     
     Post.findByIdAndDelete(PostID)
-    .then(result => true)
-    .catch(error => false)
+    .then((result) => {
+        response.send(true);
+    }).catch(next)
 };
