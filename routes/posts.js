@@ -12,30 +12,38 @@ router.get('/', Authorization.validate, (request, response, next) => {
     }).catch(next);
 });
 
-router.get('/author/:UserID', Authorization.validate, (request, response, next) => {
+router.get('/author/:UserID', Authorization.validate, async (request, response, next) => {
     const {UserID} = request.params;
 
-    Post.find({author: UserID})
+    const Posts = await Post.find({author: UserID})
     .populate('author', ['firstname', 'middlename', 'lastname'])
     .exec()
-    .then((result) => {
-        response.send(result);
-    })
-    .catch(next)
+    .then((result) => result)
+    .catch(next);
+
+    response.send(Posts);
 });
 
 router.get('/:PostID', Authorization.validate, (request, response, next) => {
-    response.send(`Get One Post`);
+    const {PostID} = request.params;
+
+    Post.findById(PostID)
+    .populate('author', ['firstname', 'middlename', 'lastname'])
+    .exec()
+    .then((result) => {
+        response.send(result);    
+    }).catch(next);
 });
 
 router.post('/create', Authorization.validate, async (request, response, next) => {
     const {author, message} = request.body;
     const PostID = await Post.create({ author, message }).then((result) => result._id).catch(next);
     
-    User.findByIdAndUpdate(author, {$push: {posts: PostID}}, {new: true})
-    .then((result) => {
-        response.send(true);
-    }).catch(next);
+    const PostsByUser =  await User.findByIdAndUpdate(author, {$push: {posts: PostID}}, {new: true})
+    .then((result) => true)
+    .catch(next);
+
+    response.send(PostsByUser);
 });
 
 router.patch('/update/:PostID', Authorization.validate, (request, response, next) => {
