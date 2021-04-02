@@ -1,0 +1,49 @@
+### CREATE NEW USER
+POST http://127.0.0.1:4000/signup HTTP/1.1
+Content-Type: application/json
+
+{
+    "firstname": "Naruto",
+    "middlename": "Senju",
+    "lastname": "Uzumaki",
+    "username": "SeventhHokage",
+    "email": "naruto.uzumaki@konoha.com",
+    "password": "Dattebayo!",
+    "age": 33,
+    "birthday": "01/01/2000",
+    "sex": "Male"
+}
+
+### LOGIN USER
+POST http://127.0.0.1:4000/login HTTP/1.1
+Content-Type: application/json
+
+{
+    "username": "SeventhHokage",
+    "password": "Dattebayo!"
+}
+
+### GET ALL POSTS
+GET http://127.0.0.1:4000/posts HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.U2V2ZW50aEhva2FnZQ.ZrM5iF8p1lyyogDlPuvhSWpsdTK5apvvSmZcgrHKDFk
+
+### GET ALL POSTS FROM USER
+GET http://127.0.0.1:4000/posts/author/6066b62eb8d4d628c33d8fe0 HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.U2V2ZW50aEhva2FnZQ.ZrM5iF8p1lyyogDlPuvhSWpsdTK5apvvSmZcgrHKDFk
+
+### GET ONE POSTS
+GET http://127.0.0.1:4000/posts/author/6066b62eb8d4d628c33d8fe0 HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.U2V2ZW50aEhva2FnZQ.ZrM5iF8p1lyyogDlPuvhSWpsdTK5apvvSmZcgrHKDFk
+
+### CREATE NEW POST
+POST http://127.0.0.1:4000/posts/create HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.U2V2ZW50aEhva2FnZQ.ZrM5iF8p1lyyogDlPuvhSWpsdTK5apvvSmZcgrHKDFk
+
+{
+    "author": "6066b62eb8d4d628c33d8fe0",
+    "message": "Hello world"
+}
